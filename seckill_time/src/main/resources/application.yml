@@ -1,0 +1,9 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: seckill-time
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000/eureka/

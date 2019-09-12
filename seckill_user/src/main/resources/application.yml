@@ -1,0 +1,23 @@
+server:
+  port: 5000
+spring:
+  application:
+    name: seckill-user
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.2.105:3306/seckill?characterEncoding=utf-8
+    username: root
+    password: root
+  redis:
+    host: 192.168.2.105
+    timeout: 10000ms #redis请求超时时间，超过此值redis自动断开连接
+    jedis:
+      pool:
+        max-active: 32 #jedis最大连接数，超过此值则提示获取不到连接异常
+        max-wait: 10000ms #jedis最大等待时间，超过此值会提示连接超时异常
+        max-idle: 32 #jedis最大等待连接数
+        min-idle: 0 #jedis最小等待连接数
+eureka:
+  client:
+    service‐url:
+      defaultZone: http://localhost:9000/eureka
