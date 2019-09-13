@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +32,7 @@ public class OrderController {
             resultMap.put("msg", "会员没有登录不能购买！");
             return resultMap;
         }
-        String id = (String) userMap.get("user_id");
-        //return orderService.createOrder(sku_id, userMap.get("user_id"));
-        return resultMap;
+        BigInteger user_id = (BigInteger) userMap.get("user_id");
+        return orderService.createOrder(sku_id, user_id);
     }
 }

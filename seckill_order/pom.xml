@@ -38,6 +38,12 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.seckill</groupId>
+            <artifactId>seckill_stock</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
