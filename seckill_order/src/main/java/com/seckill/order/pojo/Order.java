@@ -1,5 +1,6 @@
 package com.seckill.order.pojo;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import java.util.Date;
  * @Date: 2019/9/12 19:58
  * @Description:
  */
-public class Order {
+public class Order implements Serializable {
     private BigInteger order_id;
     private BigInteger total_fee;
     private BigInteger actual_fee;
