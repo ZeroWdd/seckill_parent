@@ -1,5 +1,6 @@
 package com.seckill.order.pojo;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -8,39 +9,39 @@ import java.util.Date;
  * @Description:
  */
 public class Order {
-    private Integer order_id;
-    private Integer total_fee;
-    private Integer actual_fee;
+    private BigInteger order_id;
+    private BigInteger total_fee;
+    private BigInteger actual_fee;
     private String promotion_ids;
     private Integer payment_type;
-    private Integer post_fee;
-    private Integer user_id;
+    private BigInteger post_fee;
+    private BigInteger user_id;
     private Integer invoice_type;
     private Integer source_type;
     private Integer status;
     private Date create_time;
 
-    public Integer getOrder_id() {
+    public BigInteger getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(Integer order_id) {
+    public void setOrder_id(BigInteger order_id) {
         this.order_id = order_id;
     }
 
-    public Integer getTotal_fee() {
+    public BigInteger getTotal_fee() {
         return total_fee;
     }
 
-    public void setTotal_fee(Integer total_fee) {
+    public void setTotal_fee(BigInteger total_fee) {
         this.total_fee = total_fee;
     }
 
-    public Integer getActual_fee() {
+    public BigInteger getActual_fee() {
         return actual_fee;
     }
 
-    public void setActual_fee(Integer actual_fee) {
+    public void setActual_fee(BigInteger actual_fee) {
         this.actual_fee = actual_fee;
     }
 
@@ -60,19 +61,19 @@ public class Order {
         this.payment_type = payment_type;
     }
 
-    public Integer getPost_fee() {
+    public BigInteger getPost_fee() {
         return post_fee;
     }
 
-    public void setPost_fee(Integer post_fee) {
+    public void setPost_fee(BigInteger post_fee) {
         this.post_fee = post_fee;
     }
 
-    public Integer getUser_id() {
+    public BigInteger getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(Integer user_id) {
+    public void setUser_id(BigInteger user_id) {
         this.user_id = user_id;
     }
 

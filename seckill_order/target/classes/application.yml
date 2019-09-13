@@ -17,6 +17,8 @@ spring:
         max-wait: 10000ms #jedis最大等待时间，超过此值会提示连接超时异常
         max-idle: 32 #jedis最大等待连接数
         min-idle: 0 #jedis最小等待连接数
+  rabbitmq:
+    host: 192.168.2.105
 eureka:
   client:
     service‐url:
