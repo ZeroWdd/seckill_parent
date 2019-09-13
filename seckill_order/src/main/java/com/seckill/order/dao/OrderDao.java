@@ -6,6 +6,7 @@ import com.seckill.order.vo.OrderVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface OrderDao {
             "where m.order_id = #{order_id}")
     List<OrderVo> getOrder(String order_id);
 
+    @Update("update tb_order set status = 2 where order_id = #{order_id}")
+    int updateOrderStatus(String order_id);
 }

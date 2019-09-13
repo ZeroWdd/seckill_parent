@@ -167,4 +167,27 @@ public class OrderService {
         return resultMap;
     }
 
+    public Map<String, Object> payOrder(String order_id, String sku_id){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        if (order_id==null||order_id.equals("")){
+            resultMap.put("result", false);
+            resultMap.put("msg", "订单有误！");
+            return resultMap;
+        }
+
+        int flag = orderDao.updateOrderStatus(order_id);
+
+        if (flag != 1){
+            resultMap.put("result", false);
+            resultMap.put("msg", "订单状态更新失败！");
+            return resultMap;
+        }
+
+        rabbitTemplate.convertAndSend("storage_queue", sku_id);
+
+        resultMap.put("result", true);
+        resultMap.put("msg", "");
+        return resultMap;
+    }
+
 }
