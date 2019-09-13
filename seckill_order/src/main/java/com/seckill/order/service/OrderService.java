@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.seckill.order.dao.OrderDao;
 import com.seckill.order.pojo.Order;
 import com.seckill.order.pojo.OrderDetail;
+import com.seckill.order.vo.OrderVo;
 import com.seckill.stock.pojo.LimitPolicy;
 import com.seckill.stock.vo.SkuVo;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,9 +21,7 @@ import util.IdWorker;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Auther: wdd
@@ -150,6 +149,22 @@ public class OrderService {
         map.put("result", true);
         map.put("msg", "");
         return map;
+    }
+
+    public Map<String, Object> getOrder(String order_id){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        if (order_id==null||order_id.equals("")){
+            resultMap.put("result", false);
+            resultMap.put("msg", "参数传入有误！");
+            return resultMap;
+        }
+
+        List<OrderVo> list = orderDao.getOrder(order_id);
+        resultMap.put("order", list);
+        resultMap.put("result", true);
+        resultMap.put("msg", "");
+        return resultMap;
     }
 
 }

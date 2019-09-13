@@ -35,4 +35,10 @@ public class OrderController {
         BigInteger user_id = (BigInteger) userMap.get("user_id");
         return orderService.createOrder(sku_id, user_id);
     }
+
+    @RequestMapping(value = "/getOrder/{order_id}")
+    public Map<String, Object> getOrder(@PathVariable("order_id") String order_id){
+        return orderService.getOrder(order_id);
+    }
+
 }
