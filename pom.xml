@@ -16,6 +16,8 @@
         <module>seckill_storage</module>
         <module>seckill_user</module>
         <module>seckill_order</module>
+        <module>seckill_zuul</module>
+        <module>seckill_client</module>
     </modules>
 
     <parent>
