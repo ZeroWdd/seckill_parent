@@ -32,7 +32,7 @@
 
 ## 技术架构
 
-![架构](E:/黑马57/电商项目秒杀系统实战/电商项目秒杀系统实战（一）资料/assets/架构.png)
+![架构](assets/架构.png)
 
 整体架构图：
 
@@ -60,7 +60,7 @@ Eureka Server：
 
 Redis的应用：
 
-![redis](E:/黑马57/电商项目秒杀系统实战/电商项目秒杀系统实战（一）资料/assets/redis.png)
+![redis](assets/redis.png)
 
 缓存商品数量、秒杀政策。
 
@@ -82,7 +82,7 @@ Redis里存取内容：
 
 RabbitMQ的应用：
 
-![RabbitMQ](E:/黑马57/电商项目秒杀系统实战/电商项目秒杀系统实战（一）资料/assets/RabbitMQ.png)
+![RabbitMQ](assets/RabbitMQ.png)
 
 消费者提交订单，自动写入订单队列：
 
@@ -94,7 +94,7 @@ RabbitMQ的应用：
 
 ## 数据库结构 
 
-![databaseTable.png](E:/黑马57/电商项目秒杀系统实战/电商项目秒杀系统实战（一）资料/assets/databaseTable.png)
+![databaseTable.png](assets/databaseTable.png)
 
 ## 开发工具 
 
@@ -130,29 +130,29 @@ IntelliJ IDEA
 	![limitPolicypage2.png](assets\limitpolicyPage2.png)
 	
 2. 登录页面
-  地址：http://localhost/seckillClient/page/loginPage.html
+    地址：http://localhost/seckillClient/page/loginPage.html
 
   ![limitPolicypage2.png](assets\limitpolicyPage2.png)
 
 3. 商品列表页
-  地址：<http://localhost/seckillClient/page/stockListPage.html>
+    地址：<http://localhost/seckillClient/page/stockListPage.html>
 
   ![stocklist.png](assets/stocklist.png)
 
 4. 商品详情页
-  地址：<http://localhost/seckillClient/page/stockDetailPage.html?sku_id=27359021557>
+    地址：<http://localhost/seckillClient/page/stockDetailPage.html?sku_id=27359021557>
 
   ![stockpage.png](assets/stockpage.png)
 
 5. 提交订单
-  在商品详情页中点击【立即抢购】
-  地址：<http://localhost/seckillClient/page/createOrderPage.html?sku_id=27359021557>
+    在商品详情页中点击【立即抢购】
+    地址：<http://localhost/seckillClient/page/createOrderPage.html?sku_id=27359021557>
 
   ![createorderpage.png](assets/createorderpage.png)
 
 6. 付款页面
-  在提交订单页面点击【提交订单】
-  地址：<http://localhost/seckillClient/page/payPage.html?order_id=1565061554849>
+    在提交订单页面点击【提交订单】
+    地址：<http://localhost/seckillClient/page/payPage.html?order_id=1565061554849>
 
   ![createorderpage.png](assets/createorderpage.png)点击【微信支付】，提示“支付成功”
 
