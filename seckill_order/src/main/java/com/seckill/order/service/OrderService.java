@@ -50,7 +50,10 @@ public class OrderService {
             return resultMap;
         }
         //2、取redis政策
-        BigInteger order_id = BigInteger.valueOf(idWorker.nextId());
+        //long nextId = idWorker.nextId();
+        //BigInteger order_id = BigInteger.valueOf(nextId);
+        long l = System.currentTimeMillis();
+        BigInteger order_id = BigInteger.valueOf(l);
         LimitPolicy limitPolicy = (LimitPolicy) redisTemplate.opsForValue().get("LIMIT_POLICY_"+sku_id);
         if(!StringUtils.isEmpty(limitPolicy)){
             //3、开始时间小于等于当前时间，当前时间小于等于结束
@@ -161,7 +164,7 @@ public class OrderService {
         }
 
         List<OrderVo> list = orderDao.getOrder(order_id);
-        resultMap.put("order", list);
+        resultMap.put("order", list.get(0));
         resultMap.put("result", true);
         resultMap.put("msg", "");
         return resultMap;
