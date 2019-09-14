@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getStock();
+        })
+        function getStock() {
+            var sku_id = getQueryVariable("sku_id");
+            $("#goShopping").attr("sku_id",sku_id);
+            $.ajax({
+                type:'post',
+                url:"/leyouStock/getStock/"+sku_id,
+                success:function(data){
+
+                    var stockPrice = 0;
+                    //秒杀价格
+                    var limitPrice = 0;
+                    var endTime = "";
+                    $(data.sku).each(function (n,value) {
+                        $("title").html(value.title);
+                        $("#stockName").html(value.title);
+                        $("#stockImage").attr("src",value.images);
+                        $("#stockDesc").html(value.description);
+                        stockPrice = value.price;
+                        limitPrice = value.limitPrice;
+                        endTime = value.limitEndTime;
+                    })
+
+                    //存在秒杀政策
+                    if (limitPrice){
+                        $(".oldStockPrice").html("￥"+parseInt(stockPrice)/100);
+                        stockPrice = limitPrice;
+                        lasttime(endTime,$("#time"));
+                    }else {
+                        $(".oldStockPrice").remove();
+                        $("#time").remove();
+
+                        $("#goShopping").css("pointer-events","none");
+                        $("#goShopping").css("background-color", "#777777")
+                        $("#goShopping").html("即将开始");
+                    }
+                    $(".newStockPrice").html(parseInt(stockPrice)/100);
+                },error:function(){
+                    alert("请求出错，请稍后重试");
+                }
+            });
+        }
+
+        /**
+         * 立即抢购
+         * @param obj
+         */
+        function goShopping(obj) {
+            var sku_id = $(obj).attr("sku_id");
+            if (!sku_id){
+                alert("商品ID=【"+sku_id+"】;");
+            }
+            //跳转提交订单页面
+            open("createOrderPage.html?sku_id="+sku_id);
+        }
+
+        //初始化活动剩余时间
+        function lasttime(limitPriceTime,htmlObj){
+            var stopTime = (new Date(limitPriceTime).getTime() - new Date().getTime())/1000;//秒杀结束时间
+            setInterval(function(){
+                //天 小时 分 秒
+                var days = Math.floor(stopTime/(24*3600));
+                var hours =Math.floor(stopTime%(24*3600)/3600);
+                var minutes = Math.floor(stopTime%3600/60);
+                var seconds = Math.floor(stopTime%60);
+                days = days<10?"0"+days:days;
+                hours = hours<10?"0"+hours:hours;
+                minutes = minutes<10?"0"+minutes:minutes;
+                seconds = seconds<10?"0"+seconds:seconds;
+                htmlObj.find(".days").html(days);
+                htmlObj.find(".hours").html(hours);
+                htmlObj.find(".minutes").html(minutes);
+                htmlObj.find(".seconds").html(seconds);
+                stopTime--;
+            },1000);
+        }
+        /**
+         * 获取URL参数
+         * @param variable
+         * @returns {*}
+         */
+        function getQueryVariable(variable)
+        {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
+        /**
+         * 立即抢购
+         * @param obj
+         */
+        // function goShopping(obj) {
+        //     var sku_id = $(obj).attr("sku_id");
+        //     if (!sku_id){
+        //         alert("商品ID=【"+sku_id+"】");
+        //     }
+        //     //跳转提交订单页面
+        //     location.href="createOrderPage.html?sku_id="+sku_id;
+        // }
+    </script>
+</head>
+<body>
+    <div>
+        <div>
+            <img src="../resources/img/leyouStockDetail.png" style="width: 100%">
+        </div>
+        <div id="stockAll" class="input-group input-group-lg" style="margin-bottom: 20px;margin-right: auto;margin-left: auto;width: 730px;">
+            <div id="stockDetail" style="position: relative;">
+                <div>
+                    <img style="margin-top: 20px; margin-left: auto;margin-right: auto;display: block;width: 450px;" id="stockImage" src="https://img10.360buyimg.com/n1/s450x450_jfs/t1/30693/17/7599/332089/5c98cc1fE43eafa3c/3b3515c7537efeaf.jpg">
+                </div>
+                <div id="stockName", style="margin-top: 20px;">
+
+                </div>
+                <div id="stockPrice">
+                    <span style="font-size: 18px;color: #d21e20;">￥<span class="newStockPrice"></span></span>
+                    <span style="font-size: 14px;text-decoration:line-through;color: #888888;" class="oldStockPrice"></span>
+                </div>
+                <div id="time">
+                    <span>抢购倒计时：</span>
+                    <span class="countDown days">00</span>
+                    <span>天</span>
+                    <span class="countDown hours">00</span>
+                    <span>时</span>
+                    <span class="countDown minutes">00</span>
+                    <span>分</span>
+                    <span class="countDown seconds">00</span>
+                    <span>秒</span>
+                </div>
+                <div onclick="goShopping(this);" id="goShopping" spu_id="" style="text-align: center;width: 125px;
+                    line-height: 50px;background-color: #d21e20;color: #ffffff;position: absolute;bottom: 0px;right: 0px;font-size: 20px;cursor: pointer;">
+                    立即抢购
+                </div>
+            </div>
+            <div style="line-height: 50px;background-color: #d21e20;border: 1px solid #d21e20;font-size: 20px;font-weight: 600;padding-left: 20px;color: #ffffff;margin-top: 20px;">
+                商品详情
+            </div>
+            <div id="stockDesc">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>确认订单</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getStockDetail();
+        })
+        function getStockDetail() {
+            var sku_id = getQueryVariable("sku_id");
+            $("#payAmount").attr("sku_id",sku_id);
+            $.ajax({
+                type:'post',
+                timeout : 10000, //超时时间设置，单位毫秒
+                url:"/leyouStock/getStock/"+sku_id,
+                success:function(data){
+
+                    var stockPrice = 0;
+                    //秒杀价格
+                    var limitPrice = 0;
+                    $(data.sku).each(function (n,value) {
+                        $("title").html(value.title);
+                        $("#stockName").html(value.title);
+                        $("#stockImage").attr("src",value.images);
+                        stockPrice = value.price;
+                        limitPrice = value.limitPrice;
+                    })
+
+                    //存在秒杀政策
+                    if (limitPrice){
+                        $(".totalPrice").html(parseInt(stockPrice)/100);
+                        stockPrice = limitPrice;
+                    }else {
+                        $(".totalPrice").html(parseInt(stockPrice)/100);
+                        $(".payAmount").html(parseInt(stockPrice)/100);
+                    }
+                    $(".payPrice").html(parseInt(stockPrice)/100);
+                },error:function(){
+                    alert("请求出错，请稍后重试");
+                }
+            });
+        }
+
+        /**
+         * 立即抢购
+         * @param obj
+         */
+        function createOrder(obj) {
+            var sku_id = $("#payAmount").attr("sku_id");
+            $.ajax({
+                type:'post',
+                timeout : 10000, //超时时间设置，单位毫秒
+                url:"/leyouOrder/createOrder/"+JSON.stringify({"sku_id":sku_id}),
+                success:function(data){
+                    if (data.result){
+                        //跳转支付页面
+                        location.href="payPage.html?order_id="+data.order_id;
+                    }else {
+                        alert(data.msg);
+                    }
+                },error:function(){
+                    alert("请求出错，请稍后重试");
+                }
+            });
+        }
+
+        /**
+         * 获取URL参数
+         * @param variable
+         * @returns {*}
+         */
+        function getQueryVariable(variable)
+        {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
+    </script>
+</head>
+<body>
+    <div><img src="../resources/img/leyouOrder.png" style="width: 100%"></div>
+    <div style="padding: 10px 550px 10px;">
+        <div id="stockAll" class="input-group" style="margin-bottom: 20px;">
+            <div id="stockDetail">
+                <div>
+                    <img id="stockImage" width="400" src="">
+                </div>
+                <div id="stockName">
+                </div>
+                <div id="stockTotalPrice" style="text-align:right;margin-bottom: 15px;">
+                    <span style="margin-right: 20px;">总商品金额：</span>
+                    <span style="font-size: 14px;color: #666666;display: inline-block;width: 75px">￥<span class="totalPrice"></span></span>
+                </div>
+                <div id="payTotalPrice" style="text-align:right;margin-bottom: 75px;">
+                    <span style="margin-right: 20px;">应付金额：</span>
+                    <span style="font-size: 18px;color: #e4393c;font-weight: 600;display: inline-block;width: 75px;">￥<span class="payPrice"></span></span>
+                </div>
+                <div onclick="createOrder(this);" id="payAmount" style="text-align: center;width: 100px;line-height: 40px;
+                    background-color: #e4393c;color: #ffffff;position: absolute;bottom: 0px;right: 0px;font-weight: 600;cursor: pointer;">
+                    提交订单
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

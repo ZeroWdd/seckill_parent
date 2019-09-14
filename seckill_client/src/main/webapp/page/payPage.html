@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付页面</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getOrderDetail();
+        })
+        function getOrderDetail() {
+            var order_id = getQueryVariable("order_id");
+            $.ajax({
+                type:'post',
+                url:"/leyouOrder/getOrder/"+order_id,
+                success:function(data){
+                    // console.log(JSON.stringify(data.master))
+                    // $(data.order).each(function (n,value) {
+                    //     $("#order_id").html(value.order_id);
+                    //     $("#payAmount").html(value.price/100);
+                    //     $("#sku_id").html(value.sku_id);
+                    // })
+
+                    $("#order_id").html(data.order_id);
+                    $("#payAmount").html(data.price/100);
+                    $("#sku_id").html(data.sku_id);
+
+                },error:function(){
+                    alert("请求出错，请稍后重试");
+                }
+            });
+        }
+        /**
+
+         * 立即支付
+         * @param obj
+         */
+        function payAmount(obj) {
+            var order_id = getQueryVariable("order_id");
+            var sku_id = $("#sku_id").html();
+            $.ajax({
+                type:'post',
+                url:"/leyouOrder/payOrder/"+order_id+"/"+sku_id,
+                success:function(data){
+                    alert("支付成功！");
+                    location.href="stockListPage.html";
+                },error:function(){
+                    alert("请求出错，请稍后重试");
+                }
+            });
+        }
+
+        /**
+         * 获取URL参数
+         * @param variable
+         * @returns {*}
+         */
+        function getQueryVariable(variable)
+        {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
+    </script>
+</head>
+<body>
+    <div><img src="../resources/img/leyouPayOrder.png" style="width: 100%"></div>
+    <div style="padding: 10px 30%; top: 50%; left: 50%">
+        <div id="stockList" class="input-group input-group-lg" style="margin-bottom: 20px;">
+            <div class="orderDetail" style="position: relative;height: 150px;">
+                <div style="line-height: 50px;font-size:21px;">
+                    订单号：<span id="order_id"></span>
+                </div>
+                <div style="display: none" id="sku_id"></div>
+                <div style="line-height: 50px;font-size:21px;" class="stockPrice">
+                    支付金额：<span style="font-size: 18px;color: #d21e20;">￥<span id="payAmount"></span></span>
+                </div>
+                <div onclick="payAmount(this);" id="payTypeWX" stockID="" style="text-align: center;width: 150px;line-height: 30px;
+                    background-color: #d21e20;color: #ffffff;position: absolute;bottom: 0px;right: 0px; cursor: pointer;">
+                    微信支付
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

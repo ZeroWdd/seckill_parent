@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="../resources/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <script src="../resources/jquery/jquery-3.4.1.min.js"></script>
+    <script src="../resources/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script type="text/javascript">
+        function login() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var dat = {
+                "username":username,
+                "password":password
+            };
+            $.ajax({
+                type:'post',
+                url:"/leyouUser/login",
+                data: dat,
+                success:function(data){
+                    //跳转商品列表
+                    location.href="stockListPage.html";
+                },error:function(){
+                    alert("请求出错，请稍后重试");
+                }
+            });
+        }
+    </script>
+</head>
+<body style="background-image: url('../resources/img/leyouLogin.png'); background-repeat: no-repeat; background-size:cover">
+<div class="row">
+    <div class="col-md-10"></div>
+    <div class="col-md-2" style="margin: 360px 1500px;">
+            <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+                <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: black;">账号：</span>
+                <input id="username" type="text" class="form-control" placeholder="请输入手机号">
+            </div>
+
+            <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+                <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: black;">密码：</span>
+                <input id="password" type="text" class="form-control" placeholder="输入任意字符">
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;width: 100%;text-align: center;">
+                <div class="btn-group btn-group-lg" style="margin-right: auto;margin-left: auto;">
+                    <button type="button" class="btn btn-default" style="background-color: #ffc107;" onclick="login();">登录/注册</button>
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+</html>

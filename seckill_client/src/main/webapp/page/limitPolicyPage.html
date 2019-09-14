@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>秒杀政策设置</title>
+    <link rel="stylesheet" href="../resources/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../resources/bootstrap-4.3.1-dist/css/bootstrap-datetimepicker.min.css">
+    <script src="../resources/jquery/jquery-3.4.1.min.js"></script>
+    <script src="../resources/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script src="../resources/bootstrap-4.3.1-dist/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../resources/bootstrap-4.3.1-dist/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript">
+        //保存秒杀政策
+        function submit() {
+            var sku_id = $("#sku_id").val();
+            var quanty = $("#quanty").val();
+            var begin_time = $("#begin_time").val();
+            var end_time = $("#end_time").val();
+            if (new Date(end_time).getTime()-new Date(begin_time)<=0){
+                alert("结束时间不能小于等于开始时间！");
+                return;
+            }
+            if (new Date(end_time).getTime()-new Date().getTime()<=0){
+                alert("结束时间不能小于等于当前时间！");
+                return;
+            }
+            var price = $("#price").val();
+            var dat = {
+                "sku_id":sku_id,
+                "quanty":quanty,
+                "begin_time":begin_time,
+                "end_time":end_time,
+                "price":price*100
+            };
+            $.ajax({
+                type:'post',
+                url:"/leyouStock/insertLimitPolicy/"+JSON.stringify(dat),
+                success:function(data){
+                    alert("政策保存成功！");
+                },error:function(){
+                    alert("请求出错，请稍后重试");
+                }
+            });
+        }
+        //查询商品
+        $.ajax({
+            type:'post',
+            url:"/leyouStock/getStockList",
+            success:function(data){
+                var sku_list = data.sku_list;
+                if (sku_list){
+                    $(sku_list).each(function (n,value) {
+                        $("#sku_id").append("<option value='"+value.sku_id+"' oldPrice='"+value.price+"'>"+value.title+"</option>");
+                        if (n == 0){
+                            $("#oldPrice").val(value.price/100);
+                        }
+                    })
+                }
+            },error:function(){
+                alert("请求出错，请稍后重试");
+            }
+        });
+        //商品选择，动态显示商品原价
+        function stockChange() {
+            var sku_id = $("#sku_id").val();
+            $("#oldPrice").val(parseFloat($("option[value="+sku_id+"]").attr("oldPrice"))/100);
+        }
+
+        $(function () {
+            //加载时间空间：https://www.bootcss.com/p/bootstrap-datetimepicker/
+            $(".form_datetime").datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                language:'zh-CN'
+            });
+        })
+    </script>
+</head>
+<body>
+    <div>
+        <img src="../resources/img/leyouStockDetail.png" style="width: 100%">
+    </div>
+    <div style="padding: 30px 550px 10px;">
+        <!--选择商品-->
+        <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+            <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: #666666;">商品名称：</span>
+            <select onchange='stockChange()' id="sku_id" style="width: 329px;">
+
+            </select>
+        </div>
+
+        <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+            <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: #666666;">商品原价：</span>
+            <input id="oldPrice" type="text" readonly="readonly" class="form-control" placeholder="商品原价">
+        </div>
+
+        <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+            <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: #666666;">秒杀价格：</span>
+            <input id="price" type="text" class="form-control" placeholder="秒杀价格">
+        </div>
+
+        <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+            <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: #666666;">秒杀库存：</span>
+            <input id="quanty" type="text" class="form-control" placeholder="请填写大于0的整数">
+        </div>
+
+        <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+            <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: #666666;">开始时间：</span>
+            <input id="begin_time" type="text" class="form-control form_datetime" placeholder="">
+        </div>
+
+        <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+            <span class="input-group-addon" style="line-height: 48px;font-size: 18px;color: #666666;">结束时间：</span>
+            <input id="end_time" type="text" class="form-control form_datetime" placeholder="">
+        </div>
+
+        <div class="input-group" style="margin-bottom: 20px;width: 100%;text-align: center;">
+            <div class="btn-group btn-group-lg" style="margin-right: auto;margin-left: auto;">
+                <button type="button" class="btn btn-default" style="background-color: #ffc107;" onclick="submit();">保存</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
