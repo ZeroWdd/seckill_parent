@@ -103,7 +103,7 @@ public class SkuService {
         //获取该商品信息(库存等)
         List<SkuVo> skuVoList = skuDao.getStock(limitPolicy.getSku_id().toString());
         SkuVo skuVo = skuVoList.get(0);
-        redisTemplate.opsForValue().set("SKU_"+limitPolicy.getSku_id(),limitPolicy,diff, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("SKU_"+limitPolicy.getSku_id(),skuVo,diff, TimeUnit.SECONDS);
         //5、返回正常信息
         map.put("result", true);
         map.put("msg", "");
