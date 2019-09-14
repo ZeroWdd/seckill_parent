@@ -1,0 +1,37 @@
+server:
+  port: 80
+spring:
+  application:
+    name: seckill-zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka/
+zuul:
+  ignored-services: '*'  #忽略框架默认的服务映射路径
+  ignore-security-headers: false  #不忽略框架与权限相关的头信息
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+    max-total-connections: 500
+  routes:
+    seckill-order:
+      path: /seckillOrder/**
+      services: seckill-order
+      sensitiveHeaders: "*"  #防止session不一致问题
+    seckill-stock:
+      path: /seckillStock/**
+      services: seckill-stock
+      sensitiveHeaders: "*"  #防止session不一致问题
+    seckill-storage:
+      path: /seckillStorage/**
+      services: seckill-storage
+      sensitiveHeaders: "*"  #防止session不一致问题
+    seckill-time:
+      path: /seckillTime/**
+      services: seckill-time
+      sensitiveHeaders: "*"  #防止session不一致问题
+    seckill-user:
+      path: /seckillUser/**
+      services: seckill-user
+      sensitiveHeaders: "*"  #防止session不一致问题
