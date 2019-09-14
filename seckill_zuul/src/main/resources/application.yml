@@ -35,3 +35,7 @@ zuul:
       path: /seckillUser/**
       services: seckill-user
       sensitiveHeaders: "*"  #防止session不一致问题
+    seckill-client:
+      path: /seckillClient/**
+      services: seckill-client
+      sensitiveHeaders: "*"  #防止session不一致问题
