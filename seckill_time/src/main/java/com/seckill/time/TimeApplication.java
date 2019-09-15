@@ -12,6 +12,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 @EnableEurekaClient
 public class TimeApplication {
+    //时间模块
     public static void main(String[] args) {
         SpringApplication.run(TimeApplication.class,args);
     }
