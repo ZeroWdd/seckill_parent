@@ -26,15 +26,12 @@ public class UserController {
         //1、取会员
         Map<String, Object> userMap = new HashMap<String, Object>();
         userMap = userService.getUser(user);
-
         //2、没取到会员，写入会员
         if (!(Boolean) userMap.get("result")){
             userMap = userService.insertUser(user);
         }
-
         //3、写入session
         session.setAttribute("user", userMap);
-
         //4、返回信息
         return userMap;
     }
