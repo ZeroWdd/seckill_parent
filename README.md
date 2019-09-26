@@ -8,6 +8,24 @@
 
 希望喜欢的同学能给个star，谢谢。
 
+## 开发工具 
+
+IntelliJ IDEA 
+
+## 开发环境				
+
+| JDK  | Maven | Mysql | SpringBoot    | springcloud | Redis | RabbitMQ |
+| ---- | ----- | ----- | ------------- | ----------- | ----- | -------- |
+| 1.8  | 3.5.2 | 5.7   | 2.0.4.RELEASE | Finchley.M9 | 3.2   | 3.7.14   |
+
+## 使用说明
+
+1. 下载代码 git clone https://github.com/ZreoWdd/seckill_parent.git 将项目下载到IDEA里面
+2. 运行sql文件夹下的sql文件
+3. 到src/main/resources下的application.yml下修改你的数据库链接用户名与密码
+4. 安装redis、mysql、rabbitmq、maven等环境
+5. 启动前，检查配置 application.yml 中相关redis、mysql、rabbitmq地址
+
 ## 秒杀的业务特点
 
 1、瞬时并发量大：大量用户会在同一时间抢购，网站流量瞬间激增。
@@ -103,24 +121,6 @@ RabbitMQ的应用：
 ## 数据库结构 
 
 ![databaseTable.png](assets/databaseTable.png)
-
-## 开发工具 
-
-IntelliJ IDEA 
-
-## 开发环境				
-
-| JDK  | Maven | Mysql | SpringBoot    | springcloud | Redis | RabbitMQ |
-| ---- | ----- | ----- | ------------- | ----------- | ----- | -------- |
-| 1.8  | 3.5.2 | 5.7   | 2.0.4.RELEASE | Finchley.M9 | 3.2   | 3.7.14   |
-
-## 使用说明
-
-1. 下载代码 git clone https://github.com/ZreoWdd/seckill_parent.git 将项目下载到IDEA里面
-2. 运行sql文件夹下的sql文件
-3. 到src/main/resources下的application.yml下修改你的数据库链接用户名与密码
-4. 安装redis、mysql、rabbitmq、maven等环境
-5. 启动前，检查配置 application.yml 中相关redis、mysql、rabbitmq地址
 
 ## 项目描述
 
